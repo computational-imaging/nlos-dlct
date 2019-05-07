@@ -43,11 +43,13 @@ H2 = abs(H).^2 + lambda;
 Afun = @(x) flt(x,H2,[]);
 
 b = R*reshape(data,M,[]);
-Atb = flt(b(:),conj(H),[]);
-x = pcg(Afun,Atb,[],40);
-Rtx = R'*reshape(x,M,[]);
+[ux, uy, uz] = blockwiener(b, Hx, Hy, Hz, lambda);
+Rtx = R'*reshape(ux,M,[]);
+Rty = R'*reshape(uy,M,[]);
+Rtz = R'*reshape(uz,M,[]);
 
-vol = reshape(Rtx,[M,N,N]);
+vol = sqrt(Rtx.^2 + Rty.^2 + Rtz.^2);
+% vol = reshape(Rtx,[M,N,N]);
 
 tic_z = linspace(0,range./2,size(vol,1));
 tic_y = linspace(width,-width,size(vol,2));

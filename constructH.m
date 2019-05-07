@@ -1,4 +1,4 @@
-function [H,h] = constructH(N,M,slope)
+function [H,Hx,Hy] = constructH(N,M,slope)
     % Local function to compute NLOS blur kernel
     x = linspace(-1,1,N);
     y = linspace(-1,1,N);
