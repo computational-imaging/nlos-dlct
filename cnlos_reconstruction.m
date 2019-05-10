@@ -27,7 +27,7 @@ function result = cnlos_reconstruction(meas, tofgrid, wall_size, alg, crop)
     end
     
     % Parameters
-    isdiffuse  = 1; % Toggle diffuse reflection (LCT only)
+    isdiffuse  = 0; % Toggle diffuse reflection (LCT only)
     isbackproj = 0; % Toggle backprojection vs LCT (LCT only)
     if alg == 0
        isbackproj = 1; 

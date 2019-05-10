@@ -5,8 +5,9 @@ load('statue/meas_10min.mat');
 load('statue/tof.mat');
 
 % resize to low resolution to reduce memory requirements
-meas = imresize3(meas, [64, 64, 2048]); % y, x, t
-tofgrid = imresize(tofgrid, [64, 64]); 
+sz = 128;
+meas = imresize3(meas, [sz, sz, 2048]); % y, x, t
+tofgrid = imresize(tofgrid, [sz, sz]); 
 
 isdiffuse  = 1;          % Toggle diffuse reflection (LCT only)
 bin_resolution = 32e-12; % Native bin resolution for SPAD is 4 ps
@@ -30,26 +31,33 @@ data = permute(meas,[3 2 1]);
 % Define volume representing voxel distance from wall
 grid_z = repmat(linspace(0,1,M)',[1 N N]);
 if (isdiffuse)
-    data = data.*(grid_z.^4);
+    data = data.*(grid_z.^2);
 else
     data = data.*(grid_z.^2);
 end
 
-H = constructH(N,M,slope);
-R = constructR(M);
-lambda = 10;
+% Multiply by the normalization factor
+%data = data.*grid_z;
 
-H2 = abs(H).^2 + lambda;
-Afun = @(x) flt(x,H2,[]);
+mu = 2;
+[Hx,Hy,Hz] = constructH3(N,M,slope,mu);
+[Rx,Ry,Rz] = constructR3(M);
+lambda = 2;
 
-b = R*reshape(data,M,[]);
-[ux, uy, uz] = blockwiener(b, Hx, Hy, Hz, lambda);
-Rtx = R'*reshape(ux,M,[]);
-Rty = R'*reshape(uy,M,[]);
-Rtz = R'*reshape(uz,M,[]);
+b = reshape(Rx*reshape(data,M,[]),[M,N,N]);
+b = fftn(b,mu*[M,N,N]);
 
-vol = sqrt(Rtx.^2 + Rty.^2 + Rtz.^2);
-% vol = reshape(Rtx,[M,N,N]);
+u = blockwiener(b, Hx, Hy, Hz, lambda);
+for i=1:3
+    u(:,:,:,i) = real(ifftn(u(:,:,:,i)));
+end
+
+v = zeros(M,N,N,3);
+v(1:M,1:N,1:N,1) = reshape(Rx'*reshape(u(1:M,1:N,1:N,1),M,[]),[M,N,N]);
+v(1:M,1:N,1:N,2) = reshape(Ry'*reshape(u(1:M,1:N,1:N,2),M,[]),[M,N,N]);
+v(1:M,1:N,1:N,3) = reshape(Rz'*reshape(u(1:M,1:N,1:N,3),M,[]),[M,N,N]);
+
+vol = v(:,:,:,3);
 
 tic_z = linspace(0,range./2,size(vol,1));
 tic_y = linspace(width,-width,size(vol,2));
@@ -58,7 +66,7 @@ tic_x = linspace(width,-width,size(vol,3));
 % clip artifacts at boundary, rearrange for visualization
 vol(end-10:end, :, :) = 0;
 vol = permute(vol, [1, 3, 2]);
-result = permute(vol, [2, 3, 1]);
+% result = permute(vol, [2, 3, 1]);
 vol = flip(vol, 2);
 vol = flip(vol, 3);
 

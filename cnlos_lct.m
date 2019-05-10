@@ -62,7 +62,7 @@ function result = cnlos_lct(meas, tofgrid, wall_size, alg, crop)
     %psf = samplePsf(N,M,width./range);
 
     % Compute inverse filter of NLOS blur kernel
-    fpsf = fftn(psf, [M,N,N]);
+    fpsf = fftn(psf, [2*M,2*N,2*N]);
     if isbackproj
         invpsf = conj(fpsf);
     else
@@ -85,7 +85,7 @@ function result = cnlos_lct(meas, tofgrid, wall_size, alg, crop)
     tdata = reshape(mtx*data(:,:),[M N N]);
 
     % Step 3: Convolve with inverse filter and unpad result
-    tvol = ifftn(fftn(tdata,[M,N,N]).*invpsf);
+    tvol = ifftn(fftn(tdata,[2*M,2*N,2*N]).*invpsf);
     tvol = tvol(1:M,1:N,1:N);
 
     % Step 4: Resample depth axis and clamp results
@@ -157,9 +157,9 @@ end
 
 function psf = definePsf(U,V,slope)
     % Local function to compute NLOS blur kernel
-    x = linspace(-1,1,U);
-    y = linspace(-1,1,U);
-    z = linspace(0,1,V);
+    x = linspace(-2,2,2*U);
+    y = linspace(-2,2,2*U);
+    z = linspace(0,2,2*V);
     [grid_z,grid_y,grid_x] = ndgrid(z,y,x);
 
     % Define PSF (scale grid_x, grid_y, grid_z to the actual range)
@@ -169,22 +169,6 @@ function psf = definePsf(U,V,slope)
     psf = psf./norm(psf(:));
     psf = circshift(psf,0.5*[0 length(y) length(x)]);
 end
-
-function psf = samplePsf(U,V,slope)
-    % Local function to compute NLOS blur kernel
-    x = linspace(-1,1,U);
-    y = linspace(-1,1,U);
-    z = linspace(0,1,V);
-    [grid_z,grid_y,grid_x] = ndgrid(z,y,x);
-
-    % Define PSF
-    psf = ((4.*slope).^2).*(grid_x.^2 + grid_y.^2) - 2*grid_z;
-    % Gaussian blurred PSF
-    psf = exp(-psf.^2/(2*0.001^2));
-    psf = psf./sum(psf(:));
-    psf = circshift(psf,0.5*[0 U U]);
-end
-
 
 function [mtx,mtxi] = resamplingOperator(M)
  % Local function that defines resampling operators

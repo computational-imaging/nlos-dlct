@@ -1,39 +1,24 @@
-function [ux, uy, uz] = blockwiener(t, Hx, Hy, Hz, lambda)
-    t = fftn(t);
-    tx = conj(Hx).*t;
-    ty = conj(Hy).*t;
-    tz = conj(Hy).*t;
-    
+function u = blockwiener(t, Hx, Hy, Hz, lambda)
     Hyx = conj(Hy).*Hx;
     Hzx = conj(Hz).*Hx;
     Hzy = conj(Hz).*Hy;
 
-    Dxx = abs(Hx).^2 + lambda;
-    Ixx = 1./Dxx;
+    Ixx = 1./(abs(Hx).^2 + lambda);
     Lyx = Hyx.*Ixx;
     Lzx = Hzx.*Ixx;
 
-    Dyy = abs(Hy).^2 + lambda - Lyx.*conj(Hyx);
-    Iyy = 1./Dyy;
+    Iyy = 1./(abs(Hy).^2 + lambda - real(Lyx.*conj(Hyx)));
     Hzy = Hzy - Lzx.*conj(Hyx);
     Lzy = Hzy.*Iyy;
 
-    Dzz = abs(Hz).^2 + lambda - Lzx.*conj(Hzx) - Lzy.*conj(Hzy);
-    Izz = 1./Dzz;
+    Izz = 1./(abs(Hz).^2 + lambda - real(Lzx.*conj(Hzx)) - real(Lzy.*conj(Hzy)));
 
-    ux = tx;
-    uy = ty - Lyx*ux;
-    uz = tz - Lzx*ux - Lzy*uy;
+    u = zeros([size(t),3]);
+    u(:,:,:,1) = conj(Hx).*t;
+    u(:,:,:,2) = conj(Hy).*t - Lyx.*u(:,:,:,1);
+    u(:,:,:,3) = conj(Hz).*t - Lzy.*u(:,:,:,2) - Lzx.*u(:,:,:,1);
 
-    ux = Ixx*ux;
-    uy = Iyy*uy;
-    uz = Izz*uz;
-
-    uz = uz;
-    uy = uy - Lyz*uz;
-    ux = ux - Lxy*uy - Lxz*uz;
-    
-    ux = real(ifftn(ux));
-    uy = real(ifftn(uy));
-    uz = real(ifftn(uz));
+    u(:,:,:,3) = Izz.*u(:,:,:,3);
+    u(:,:,:,2) = Iyy.*u(:,:,:,2) - conj(Lzy).*u(:,:,:,3);
+    u(:,:,:,1) = Ixx.*u(:,:,:,1) - conj(Lyx).*u(:,:,:,2) - conj(Lzx).*u(:,:,:,3);
 end

@@ -6,7 +6,7 @@ function R = constructR(M)
      R = spdiags(1./sqrt(x)',0,M.^2,M.^2)*R;
      R = R .* (M/sum(R(:)));
      for k = 1:round(log(M)/log(2))
-         R = 0.5.*(R(1:2:end,:) + R(2:2:end,:));
+         R = (R(1:2:end,:) + R(2:2:end,:));
      end
      R = full(R);
 end
