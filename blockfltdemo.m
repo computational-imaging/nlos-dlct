@@ -1,8 +1,8 @@
 clear all; 
 close all;
 
-load('statue/meas_10min.mat');
-load('statue/tof.mat');
+load('dragon/meas_10min.mat');
+load('dragon/tof.mat');
 
 % resize to low resolution to reduce memory requirements
 sz = 128;
@@ -60,47 +60,64 @@ v(1:M,1:N,1:N,3) = reshape(Rz'*reshape(u(1:M,1:N,1:N,3),M,[]),[M,N,N]);
 vol = v(:,:,:,3);
 
 tic_z = linspace(0,range./2,size(vol,1));
-tic_y = linspace(width,-width,size(vol,2));
-tic_x = linspace(width,-width,size(vol,3));
-
-% clip artifacts at boundary, rearrange for visualization
-vol(end-10:end, :, :) = 0;
-vol = permute(vol, [1, 3, 2]);
-% result = permute(vol, [2, 3, 1]);
-vol = flip(vol, 2);
-vol = flip(vol, 3);
+tic_y = linspace(-width,width,size(vol,2));
+tic_x = linspace(-width,width,size(vol,3));
 
 % View result
-figure
+% figure
+% [Z,Y,X] = ndgrid(tic_z,tic_y,tic_x);
+% quiver3(Z(1:2:end,1:2:end,1:2:end),...
+%         Y(1:2:end,1:2:end,1:2:end),...
+%         X(1:2:end,1:2:end,1:2:end),...
+%         v(1:2:end,1:2:end,1:2:end,3),...
+%         0*v(1:2:end,1:2:end,1:2:end,2),...
+%         0*v(1:2:end,1:2:end,1:2:end,1));
 
-subplot(1,3,1);
-imagesc(tic_x,tic_y,squeeze(max(vol,[],1)));
-title('Front view');
-set(gca,'XTick',linspace(min(tic_x),max(tic_x),3));
-set(gca,'YTick',linspace(min(tic_y),max(tic_y),3));
-xlabel('x (m)');
-ylabel('y (m)');
-colormap('gray');
-axis square;
 
-subplot(1,3,2);
-imagesc(tic_x,tic_z,squeeze(max(vol,[],2)));
-title('Top view');
-set(gca,'XTick',linspace(min(tic_x),max(tic_x),3));
-set(gca,'YTick',linspace(min(tic_z),max(tic_z),3));
-xlabel('x (m)');
-ylabel('z (m)');
-colormap('gray');
-axis square;
 
-subplot(1,3,3);
-imagesc(tic_z,tic_y,squeeze(max(vol,[],3))')
-title('Side view');
-set(gca,'XTick',linspace(min(tic_z),max(tic_z),3));
-set(gca,'YTick',linspace(min(tic_y),max(tic_y),3));
-xlabel('z (m)');
-ylabel('y (m)');
-colormap('gray');
-axis square;
+nz = squeeze(max(v(:,:,:,3),[],1))';
+nz = nz./max(nz(:));
+imwrite(nz, 'nz.png')
+
+ny = squeeze(max(v(:,:,:,2),[],1))';
+ny = ny./max(ny(:));
+imwrite(ny, 'ny.png')
+
+nx = squeeze(max(v(:,:,:,1),[],1))';
+nx = nx./max(nx(:));
+imwrite(nx, 'nx.png')
+
+
+% subplot(1,3,1);
+% imagesc(tic_x,tic_y,squeeze(max(v(:,:,:,1),[],1))');
+% title('Front view');
+% xticks([-width,0,+width]);
+% yticks([-width,0,+width]);
+% xlabel('$x$ (m)');
+% ylabel('$y$ (m)');
+% colormap('gray');
+% axis square;
+
+% subplot(1,3,2);
+% imagesc(tic_z,tic_y,squeeze(max(v(:,:,:,3),[],2))');
+% title('Side view');
+% xticks([0,range/4,range/2]);
+% yticks([-width,0,+width]);
+% xlabel('$z$ (m)');
+% ylabel('$y$ (m)');
+% colormap('gray');
+% axis square;
+
+% subplot(1,3,3);
+% imagesc(tic_x,tic_z,squeeze(max(v(:,:,:,3),[],3)))
+% title('Top view');
+% xticks([-width,0,+width]);
+% yticks([0,range/4,range/2]);
+% xlabel('$x$ (m)');
+% ylabel('$z$ (m)');
+% colormap('gray');
+% axis square;
+
+
 
 drawnow;
