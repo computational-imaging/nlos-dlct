@@ -1,6 +1,6 @@
 # Non-Line-of-Sight Imaging Code
 
-This repository contains code for the paper Non-line-of-sight Surface Reconstruction Using the Directional LCT by Sean I. Young, David B. Lindell, Bernd Girod, Gordon Wetzstein. The captured datasets can be downloaded separately from our [project webpage](http://computationalimaging.org).
+This repository contains code for the paper NLOS Surface Reconstruction Using the Directional LCT by Sean I. Young, David B. Lindell, Bernd Girod, Gordon Wetzstein. The captured datasets can be downloaded separately from our [project webpage](http://computationalimaging.org).
 
 **License**  
 The code and dataset are licensed under the following license:
