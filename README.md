@@ -24,4 +24,4 @@ The code and dataset are licensed under the following license:
 Questions can be addressed to [Sean Young](mailto:sean0@stanford.edu)
 
 ## tl;dr
-Clone the git repo, download the datasets from our project webpage, and run `demo.m` in Matlab.
+Clone the git repo, download the datasets from our project webpage, and run `blkfltdemo.m` in Matlab.
