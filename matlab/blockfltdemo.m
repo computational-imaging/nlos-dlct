@@ -1,8 +1,8 @@
 clear all; 
 close all;
 
-load('dragon/meas_10min.mat');
-load('dragon/tof.mat');
+load('../dragon/meas_10min.mat');
+load('../dragon/tof.mat');
 
 % resize to low resolution to reduce memory requirements
 sz = 128;
@@ -39,18 +39,14 @@ end
 % Multiply by the normalization factor
 %data = data.*grid_z;
 
-mu = 2;
+mu = 1;
 [Hx,Hy,Hz] = constructH3(N,M,slope,mu);
 [Rx,Ry,Rz] = constructR3(M);
 lambda = 2;
 
 b = reshape(Rx*reshape(data,M,[]),[M,N,N]);
-b = fftn(b,mu*[M,N,N]);
 
 u = blockwiener(b, Hx, Hy, Hz, lambda);
-for i=1:3
-    u(:,:,:,i) = real(ifftn(u(:,:,:,i)));
-end
 
 v = zeros(M,N,N,3);
 v(1:M,1:N,1:N,1) = reshape(Rx'*reshape(u(1:M,1:N,1:N,1),M,[]),[M,N,N]);
