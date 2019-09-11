@@ -29,6 +29,10 @@ function nlos = loaddata(scene)
         loadfile = 'dragon/meas_10min.mat';
         loadtype = 'stanford';
         templast = 512;
+      case 'bike'
+        loadfile = 'bike/meas_10min.mat';
+        loadtype = 'stanford';
+        templast = 512;
     end
     switch loadtype
       case 'zaragoza'
