@@ -15,14 +15,16 @@ classdef NLOSStanfordData
                 error('''%s'' does not exist or is not a file\n', filename);
             end
             [filepath,filename] = fileparts(filename);
-            load(fullfile(filepath,filename),'meas');
-            load(fullfile(filepath,'tof.mat'),'tofgrid');
-
+            load(fullfile(filepath,filename));
             ds.Filename = filename;
-            ds.DeltaT = 3e8 * 32e-12;
-            ds.CameraGridSize = 2;
+            if exist('meas','var')
+                ds.Data = meas;
+            elseif exist('data','var')
+                ds.Data = data;
+            end
             if p.Results.shifttime
-                ds.Data = NLOSStanfordData.AdjustForTimeCNLOS(meas,tofgrid*(1/32));
+                load(fullfile(filepath,'tof.mat'),'tofgrid');
+                ds.Data = NLOSStanfordData.AdjustForTimeCNLOS(ds.Data,tofgrid*(1/32));
             end
         end
     end

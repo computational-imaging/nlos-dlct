@@ -1,7 +1,7 @@
 function nlos = loaddata(scene)
     basepath = '..';
     switch scene
-      case 'bunny'
+      case 'rabbit'
         loadfile = 'bunny_l[0.00,-0.50,0.00]_r[1.57,0.00,3.14]_v[0.80,0.53,0.81]_s[256]_l[256]_gs[1.00]_conf.hdf5';
         loadtype = 'zaragoza';
         templast = 512;
@@ -33,6 +33,10 @@ function nlos = loaddata(scene)
         loadfile = 'bike/meas_10min.mat';
         loadtype = 'stanford';
         templast = 512;
+      case 'bunny'
+        loadfile = 'bunny/bunny.mat';
+        loadtype = 'debugger';
+        templast = 512;
     end
     switch loadtype
       case 'zaragoza'
@@ -41,5 +45,12 @@ function nlos = loaddata(scene)
       case 'stanford'
         nlos = NLOSStanfordData(fullfile(basepath,loadtype,loadfile),'shifttime',true);
         nlos.Data = nlos.Data(:,:,1:templast);
+        nlos.DeltaT = 3e8 * 32e-12;
+        nlos.CameraGridSize = 2;
+      case 'debugger'
+        nlos = NLOSStanfordData(fullfile(basepath,loadtype,loadfile),'shifttime',false);
+        nlos.Data = flipud(fliplr(permute(nlos.Data(1:templast,:,:),[2,3,1])));
+        nlos.DeltaT = 3e8 * 16e-12;
+        nlos.CameraGridSize = 1;
     end
 end
