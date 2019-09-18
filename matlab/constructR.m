@@ -1,4 +1,4 @@
-function [Rx,Rz] = constructR(M,range)
+function [Rx,Ry,Rz] = constructR(M,range)
 % Local function that defines resampling operators
      R = sparse([],[],[],M^2,M,M^2);
      x = 1:M^2;
@@ -14,4 +14,5 @@ function [Rx,Rz] = constructR(M,range)
      nf = 1/norm(blkdiag(Rx,Rz));
      Rx = Rx * nf;
      Rz = Rz * nf;
+     Ry = Rx;
 end

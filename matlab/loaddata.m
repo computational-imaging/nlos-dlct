@@ -9,6 +9,18 @@ function nlos = loaddata(scene)
         loadfile = 'serapis_l[0.00,-0.50,-0.41]_r[0.00,0.00,-1.57]_v[0.82]_s[256]_l[256]_gs[1.00]_conf.hdf5';
         loadtype = 'zaragoza';
         templast = 512;
+      case 'serapis1.0'
+        loadfile = 'serapis_l[0.00,-1.00,-0.40]_r[0.00,0.00,-1.57]_v[0.62,0.67,0.80]_s[256]_l[256]_gs[1.00]_conf.hdf5';
+        loadtype = 'zaragoza';
+        templast = 2048;
+      case 'spheres'
+        loadfile = 'spheres_l[0.00,-0.50,-0.64]_r[0.00,0.00,0.00]_v[0.68]_s[256]_l[256]_gs[1.00]_conf.hdf5';
+        loadtype = 'zaragoza';
+        templast = 512;
+      case 'xyzrgb_dragon'
+        loadfile = 'xyzrgb_dragon_l[0.00,-0.50,-0.66]_r[0.00,0.00,1.00]_v[0.68]_s[256]_l[256]_gs[1.00]_conf.hdf5';
+        loadtype = 'zaragoza';
+        templast = 512;
       case 'hairball'
         loadfile = 'hairball_l[0.00,-1.00,-0.40]_r[1.57,0.00,3.14]_v[0.80]_s[256]_l[256]_gs[1.00]_conf.hdf5';
         loadtype = 'zaragoza';

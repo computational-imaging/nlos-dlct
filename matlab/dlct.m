@@ -4,11 +4,14 @@ tic;
 if nargin < 3
     gamma = 3;
 end
+if nargin < 4
+    mu = [1,1,1];
+end
 
 hdim = size(nlos.Data);
 ldim = hdim./[2,2,1];
 tau = imresize3(nlos.Data, ldim);
-tau = paddata(tau,[16,16,16]);
+tau = paddata(tau,[64,64,64]);
 
 width = nlos.CameraGridSize / 2;
 range = nlos.DeltaT * hdim(3); % Maximum range for histogram
@@ -22,9 +25,8 @@ N = size(tau,3);
 M = size(tau,1);
 tau = tau.*linspace(0,range,M)'.^gamma;
 
-mu = [2,2,2];
 [Hx,Hy,Hz] = constructH(N,M,width,range,mu);
-[Rx,Rz] = constructR(M,range);
+[Rx,Ry,Rz] = constructR(M,range);
 
 b = reshape(Rx*reshape(tau,M,[]),[M,N,N]);
 u = blockwiener(b, Hx, Hy, Hz, lambda);
