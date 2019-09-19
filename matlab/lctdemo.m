@@ -5,16 +5,29 @@
 
 % Optionally replace the below filenames with files from other scenes:
 % bike, discoball, dragon, outdoor, resolution, statue, teaser
-load('statue/tof.mat');
-load('statue/meas_10min.mat');
+scene = 'spheres';
+nlos = loaddata(scene);
+% load('~/Developer/cvpr2019_nlos/debugger/bunny/bunny.mat');
+% load('~/Developer/cvpr2019_nlos/debugger/bunny/bunny_depth.mat','bunny_depth','bunny_mask');
 
 % resize to low resolution to reduce memory requirements
-sz = 128;
-measlr = imresize3(meas, [128, 128, 2048]); % y, x, t
-tofgridlr = imresize(tofgrid, [128, 128]); 
-wall_size = 2; % scanned area is 2 m x 2 m
+measlr = imresize3(nlos.Data,[256,256,512]);
+tofgridlr = [];
+wall_size = nlos.CameraGridSize;
+
+M = size(measlr,3);
+% c = 3e8;
+% bin_resolution = 16e-12;
+% range = M.*c.*bin_resolution;
+range = nlos.DeltaT*M;
+lambda = 1;
 
 % run LCT
 fprintf('\nRunning LCT\n');
 algorithm = 1;
-lct = cnlos_lct(measlr, tofgridlr, wall_size, algorithm);
+lct = cnlos_reconstruction(measlr, tofgridlr, wall_size, range, algorithm,lambda);
+vis(fliplr(flipud(max(lct,[],3)'))); 
+colormap(gray);
+a = caxis;
+caxis([-a(2),+a(2)]);
+pdfprint('temp.pdf','Width',8.5,'Height',8.5,'Position',[0,0,8.5,8.5]);

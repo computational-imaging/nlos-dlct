@@ -1,4 +1,4 @@
-function result = cnlos_reconstruction(meas, tofgrid, wall_size, alg, crop)
+function result = cnlos_reconstruction(meas, tofgrid, wall_size, range,alg, lambda)
 % Reconstruction procedures for "Confocal Non-Line-of-Sight Imaging Based on the Light Cone Transform"
 % by Matthew O'Toole, David B. Lindell, and Gordon Wetzstein.
 % and for "Wave-Based Non-Line-of-Sight Imaging using Fast f-k Migration"
@@ -19,20 +19,20 @@ function result = cnlos_reconstruction(meas, tofgrid, wall_size, alg, crop)
 %         for time-of-flight delays
 
     % Constants
-    bin_resolution = 32e-12; % Native bin resolution for SPAD is 4 ps
+    bin_resolution = 16e-12; % Native bin resolution for SPAD is 4 ps
     c              = 3e8;    % Speed of light (meters per second)
     width = wall_size / 2;
-    if ~exist('crop', 'var') % bin index to crop measurements after aligning
-        crop = 512;          % so that direct component is at t=0
-    end
+    % if ~exist('crop', 'var') % bin index to crop measurements after aligning
+    %     crop = 512;          % so that direct component is at t=0
+    % end
     
     % Parameters
-    isdiffuse  = 0; % Toggle diffuse reflection (LCT only)
+    isdiffuse  = 1; % Toggle diffuse reflection (LCT only)
     isbackproj = 0; % Toggle backprojection vs LCT (LCT only)
     if alg == 0
        isbackproj = 1; 
     end
-    snr = 1e-1; % SNR value (LCT only)
+    snr = 1/lambda; % SNR value (LCT only)
 
     % adjust so that t=0 is when light reaches the scan surface
     if ~isempty(tofgrid)
@@ -42,11 +42,12 @@ function result = cnlos_reconstruction(meas, tofgrid, wall_size, alg, crop)
             end
         end  
     end
-    meas = meas(:, :, 1:crop);
+    %meas = meas(:, :, 1:crop);
     
     N = size(meas,1);        % Spatial resolution of data
     M = size(meas,3);        % Temporal resolution of data
-    range = M.*c.*bin_resolution; % Maximum range for histogram
+
+    % range = M.*c.*bin_resolution; % Maximum range for histogram
     
     % Permute data dimensions
     data = permute(meas,[3 2 1]);
@@ -136,59 +137,59 @@ function result = cnlos_reconstruction(meas, tofgrid, wall_size, alg, crop)
     tic_x = linspace(width,-width,size(vol,3));
 
     % clip artifacts at boundary, rearrange for visualization
-    vol(end-10:end, :, :) = 0;
+    % vol(end-10:end, :, :) = 0;
     vol = permute(vol, [1, 3, 2]);
     result = permute(vol, [2, 3, 1]);
     vol = flip(vol, 2);
     vol = flip(vol, 3);
 
-    % View result
-    figure
+    % % View result
+    % figure
 
-    subplot(1,3,1);
-    imagesc(tic_x,tic_y,squeeze(max(vol,[],1)));
-    title('Front view');
-    set(gca,'XTick',linspace(min(tic_x),max(tic_x),3));
-    set(gca,'YTick',linspace(min(tic_y),max(tic_y),3));
-    xlabel('x (m)');
-    ylabel('y (m)');
-    colormap('gray');
-    axis square;
+    % subplot(1,3,1);
+    % imagesc(tic_x,tic_y,squeeze(max(vol,[],1)));
+    % title('Front view');
+    % set(gca,'XTick',linspace(min(tic_x),max(tic_x),3));
+    % set(gca,'YTick',linspace(min(tic_y),max(tic_y),3));
+    % xlabel('x (m)');
+    % ylabel('y (m)');
+    % colormap('gray');
+    % axis square;
 
-    subplot(1,3,2);
-    imagesc(tic_x,tic_z,squeeze(max(vol,[],2)));
-    title('Top view');
-    set(gca,'XTick',linspace(min(tic_x),max(tic_x),3));
-    set(gca,'YTick',linspace(min(tic_z),max(tic_z),3));
-    xlabel('x (m)');
-    ylabel('z (m)');
-    colormap('gray');
-    axis square;
+    % subplot(1,3,2);
+    % imagesc(tic_x,tic_z,squeeze(max(vol,[],2)));
+    % title('Top view');
+    % set(gca,'XTick',linspace(min(tic_x),max(tic_x),3));
+    % set(gca,'YTick',linspace(min(tic_z),max(tic_z),3));
+    % xlabel('x (m)');
+    % ylabel('z (m)');
+    % colormap('gray');
+    % axis square;
 
-    subplot(1,3,3);
-    imagesc(tic_z,tic_y,squeeze(max(vol,[],3))')
-    title('Side view');
-    set(gca,'XTick',linspace(min(tic_z),max(tic_z),3));
-    set(gca,'YTick',linspace(min(tic_y),max(tic_y),3));
-    xlabel('z (m)');
-    ylabel('y (m)');
-    colormap('gray');
-    axis square;
+    % subplot(1,3,3);
+    % imagesc(tic_z,tic_y,squeeze(max(vol,[],3))')
+    % title('Side view');
+    % set(gca,'XTick',linspace(min(tic_z),max(tic_z),3));
+    % set(gca,'YTick',linspace(min(tic_y),max(tic_y),3));
+    % xlabel('z (m)');
+    % ylabel('y (m)');
+    % colormap('gray');
+    % axis square;
 
-    drawnow;
+    % drawnow;
 
 end
 
 function psf = definePsf(U,V,slope)
     % Local function to compute NLOS blur kernel
-    x = linspace(-1,1,2.*U);% wall size might be 1 x 1
+    x = linspace(-1,1,2.*U);
     y = linspace(-1,1,2.*U);
-    z = linspace(0,2,2.*V);% depth here is 2x the real depth
+    z = linspace(0,2,2.*V);
     [grid_z,grid_y,grid_x] = ndgrid(z,y,x);
 
     % Define PSF
     psf = abs(((4.*slope).^2).*(grid_x.^2 + grid_y.^2) - grid_z);
-    psf = double(psf == repmat(min(psf,[],1),[2.*V 1 1]));
+    psf = single(psf == repmat(min(psf,[],1),[2.*V 1 1]));
     psf = psf./sum(psf(:,U,U));
     psf = psf./norm(psf(:));
     psf = circshift(psf,[0 U U]);
