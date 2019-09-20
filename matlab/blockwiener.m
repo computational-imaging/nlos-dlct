@@ -5,11 +5,11 @@ function u = blockwiener(t, Hx, Hy, Hz, lambda)
     Hzx = conj(Hz).*Hx;
     Hzy = conj(Hz).*Hy;
 
-    Ixx = 1./(abs(Hx).^2 + 0.5*lambda);
+    Ixx = 1./(abs(Hx).^2 + 0.1250*lambda);
     Lyx = Hyx.*Ixx;
     Lzx = Hzx.*Ixx;
 
-    Iyy = 1./(abs(Hy).^2 + 0.5*lambda - real(Lyx.*conj(Hyx)));
+    Iyy = 1./(abs(Hy).^2 + 0.1250*lambda - real(Lyx.*conj(Hyx)));
     Hzy = Hzy - Lzx.*conj(Hyx);
     Lzy = Hzy.*Iyy;
 

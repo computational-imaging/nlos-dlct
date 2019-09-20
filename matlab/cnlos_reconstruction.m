@@ -1,4 +1,5 @@
-function result = cnlos_reconstruction(meas, tofgrid, wall_size, range,alg, lambda)
+function result = cnlos_reconstruction(meas, tofgrid, wall_size, ...
+                                       range,alg, lambda, gamma)
 % Reconstruction procedures for "Confocal Non-Line-of-Sight Imaging Based on the Light Cone Transform"
 % by Matthew O'Toole, David B. Lindell, and Gordon Wetzstein.
 % and for "Wave-Based Non-Line-of-Sight Imaging using Fast f-k Migration"
@@ -17,6 +18,10 @@ function result = cnlos_reconstruction(meas, tofgrid, wall_size, range,alg, lamb
 %     alg == 2 : f-k migration
 %     crop: optional argument, bin index to crop measurements after correcting
 %         for time-of-flight delays
+
+    if nargin < 7
+        gamma = 2;
+    end
 
     % Constants
     bin_resolution = 16e-12; % Native bin resolution for SPAD is 4 ps
@@ -55,7 +60,7 @@ function result = cnlos_reconstruction(meas, tofgrid, wall_size, range,alg, lamb
     % Define volume representing voxel distance from wall
     grid_z = repmat(linspace(0,1,M)',[1 N N]);
 
-    display('Inverting...');
+    % display('Inverting...');
     tic;
 
     if (alg == 2) % f-k migration
@@ -63,7 +68,7 @@ function result = cnlos_reconstruction(meas, tofgrid, wall_size, range,alg, lamb
         z = z./M; y = y./N; x = x./N;
 
         % Step 0: Pad data
-        data = data .* grid_z.^2;
+        data = data .* grid_z.^gamma;
         data = sqrt(data);
         tdata = zeros(2.*M,2.*N,2.*N);
         tdata(1:end./2,1:end./2,1:end./2) = data;
@@ -100,9 +105,9 @@ function result = cnlos_reconstruction(meas, tofgrid, wall_size, range,alg, lamb
 
         % Step 1: Scale radiometric component
         if (isdiffuse)
-            data = data.*(grid_z.^4);
+            data = data.*(grid_z.^gamma);
         else
-            data = data.*(grid_z.^2);
+            data = data.*(grid_z.^gamma);
         end
 
         % Step 2: Resample time axis and pad result
@@ -126,11 +131,11 @@ function result = cnlos_reconstruction(meas, tofgrid, wall_size, range,alg, lamb
         end
     end
 
-    display('... done.');
+    % display('... done.');
     time_elapsed = toc;
 
-    display(sprintf(['Reconstructed volume of size %d x %d x %d '...
-        'in %f seconds'], size(vol,3),size(vol,2),size(vol,1),time_elapsed));
+    %display(sprintf(['Reconstructed volume of size %d x %d x %d '...
+    % 'in %f seconds'], size(vol,3),size(vol,2),size(vol,1),time_elapsed));
 
     tic_z = linspace(0,range./2,size(vol,1));
     tic_y = linspace(width,-width,size(vol,2));

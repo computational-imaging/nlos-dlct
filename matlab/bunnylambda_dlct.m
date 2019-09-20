@@ -9,8 +9,9 @@ load('~/Developer/cvpr2019_nlos/debugger/bunny/bunny_depth.mat','bunny_depth','b
 
 bunny_mask = double(bunny_mask);
 
-gammas = 3;
-lambdas = 0:4;
+% maxNumCompThreads(4);
+gammas = 5;%2:0.5:4;
+lambdas = -8:8;
 mse = zeros(length(gammas),length(lambdas));
 mad = zeros(length(gammas),length(lambdas));
 
@@ -23,13 +24,13 @@ for g = 1:length(gammas)
         mask = imresize(bunny_mask,size(pos),'nearest');
         depth = imresize(bunny_depth,size(pos));
         
-        % mse(g,l) = sum(((pos(:) - depth(:)) .* mask(:)).^2)/sum(mask(:).^2);
         mse(g,l) = sum((pos(:) - depth(:)).^2 .* mask(:))/sum(mask(:));
         mad(g,l) = sum(abs(pos(:) - depth(:)) .* mask(:))/sum(mask(:));
-        disp(sprintf('%s | gamma: %d, lambda: %+6.2f, mse: %5.2e, mad: %5.2e, time: %5.2fs', ...
-                     scene, gamma, lambda, mse(g,l), mad(g,l), sec));
+
+        disp(sprintf('%s D-LCT | gamma: %d, lambda: %+6.2f, rmse: %5.2e, mad: %5.2e, time: %5.2fs', ...
+                     scene, gamma, lambda, sqrt(mse(g,l)), mad(g,l), sec));
     end
 end
-vis(abs(pos-depth).*mask); 
-colormap(jet); caxis([0,0.01]);
-% pcdenoise(pointCloud(pos.*(mask>0)),'NumNeighbors',64,'Threshold',0.06))
+
+
+%save(sprintf('mae_%s_dlct.mat',scene),'mse','mad','gammas','lambdas');
