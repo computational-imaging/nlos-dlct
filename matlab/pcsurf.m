@@ -14,13 +14,13 @@ function pcsurf(data)
 
     col = sub2ind(size(data),X,Y,min(512,Z+1));
     [X,Y,Z] = meshgrid(1:size(data,1),1:size(data,2),1:size(data,3));
-    pcshow([Z(ind),Y(ind),X(ind)],(data(col).^0.25),'MarkerSize',4);
-    colormap(inferno);
+    pcshow([Z(ind),Y(ind),X(ind)],(data(col).^0.125),'MarkerSize',4);
+    colormap(hot);
     zticks([1,256]);
     yticks([1,256]);
     xticks([128,512]);
-    zticklabels({'$-1$','$1$'})
-    yticklabels({'$-1$','$1$'})
+    zticklabels({'$0$','$1$'})
+    yticklabels({'$0$','$1$'})
     xticklabels({'$0$','$2$'});
     view(-45,30);
     box on; 
@@ -38,5 +38,5 @@ function pcsurf(data)
     set(gca,'XColor',[0,0,0]);
     camproj('perspective');
     %axis off;
-    pdfprint('temp.pdf','Width',10.5,'Height',10.5,'Position',[0.75,1,9.5,9.5],'Renderer','OpenGL');
+    %pdfprint('temp.pdf','Width',10.5,'Height',10.5,'Position',[0.75,1,9.5,9.5],'Renderer','OpenGL');
 end

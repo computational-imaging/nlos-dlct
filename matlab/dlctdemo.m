@@ -1,7 +1,7 @@
 clear all; 
 close all;
 
-scene = 'bike';
+scene = 'serapis';
 lambda = 4;
 
 nlos = loaddata(scene);
@@ -12,8 +12,6 @@ thresh = 0.1*max(img(:));
 vis(shrinkage(fliplr(flipud(img')),thresh,0));
 a = caxis;
 caxis([-a(2),+a(2)]);
-
-
 colormap(gray)
 
 %dlctsurf(pos,dir);

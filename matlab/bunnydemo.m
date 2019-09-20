@@ -27,11 +27,3 @@ lct = cnlos_reconstruction(measlr, tofgridlr, wall_size, range, ...
 
 [~,pos] = max(lct,[],3);
 pos = pos * ((range/2)/M);
-mask = imresize(bunny_mask,size(pos),'nearest');
-depth = imresize(bunny_depth,size(pos));
-mad = sum(abs(pos(:) - depth(:)) .* mask(:))/sum(mask(:));
-mse = sum((pos(:) - depth(:)).^2 .* mask(:))/sum(mask(:));
-vis(abs(pos-depth).*mask);
-figure;
-colormap(hot);
-caxis([0,0.01]);
