@@ -6,9 +6,7 @@ function pcsurf(data)
     z = reshape(repmat(z,[1,1,size(data,3)]),[],1);
     [X,Y,Z] = ndgrid(1:size(data,1),1:size(data,2),1:size(data,3));
 
-    ind = find(((X(:) == 1 | X(:) == W  | ...
-                 Y(:) == 1 | Y(:) == H  | ...
-                 Z(:) == z | Z(:) == D)) & ~isnan(S(:)));
+    ind = find(~isnan(S(:)));
     [X,Y,Z] = ind2sub(size(data),ind);
     
 

@@ -1,17 +1,20 @@
-function [pos, dir, time, snorm, rnorm] = dlct(nlos, lambda, gamma, mu)
+function [pos, dir, time, snorm, rnorm] = dlct(nlos, lambda, gamma, sigma, mu)
 tic;
 
 if nargin < 3
     gamma = 3;
 end
 if nargin < 4
+    sigma = [2,2,1];
+end
+if nargin < 5
     mu = [2,2,2];
 end
 
 hdim = size(nlos.Data);
-ldim = hdim./[2,2,1];
+ldim = hdim./sigma;
 tau = imresize3(nlos.Data, ldim);
-%tau = paddata(tau,[64,64,64]);
+tau = paddata(tau,[32,32,32]);
 
 width = nlos.CameraGridSize / 2;
 range = nlos.DeltaT * hdim(3); % Maximum range for histogram
