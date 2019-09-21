@@ -1,8 +1,8 @@
-function [pos, dir, time, snorm, rnorm] = dlct(nlos, lambda, gamma, sigma, mu)
+function [pos, dir, time, snorm, rnorm] = dlct(nlos, lambda, gamma, sigma, mu, pad)
 tic;
 
 if nargin < 3
-    gamma = 3;
+    gamma = 4;
 end
 if nargin < 4
     sigma = [2,2,1];
@@ -10,11 +10,14 @@ end
 if nargin < 5
     mu = [2,2,2];
 end
+if nargin < 6
+    pad = [0,0,0];
+end
 
 hdim = size(nlos.Data);
 ldim = hdim./sigma;
 tau = imresize3(nlos.Data, ldim);
-tau = paddata(tau,[32,32,32]);
+tau = paddata(tau,pad);
 
 width = nlos.CameraGridSize / 2;
 range = nlos.DeltaT * hdim(3); % Maximum range for histogram
@@ -44,7 +47,7 @@ u = blockwiener(b, Hx, Hy, Hz, lambda);
 
 u = u(1:M,1:N,1:N,:);
 u(:,:,:,1) = reshape(Rx'*reshape(u(:,:,:,1),[M,N^2]),[M,N,N]);
-u(:,:,:,2) = reshape(Rx'*reshape(u(:,:,:,2),[M,N^2]),[M,N,N]);
+u(:,:,:,2) = reshape(Ry'*reshape(u(:,:,:,2),[M,N^2]),[M,N,N]);
 u(:,:,:,3) = reshape(Rz'*reshape(u(:,:,:,3),[M,N^2]),[M,N,N]);
 
 

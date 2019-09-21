@@ -35,6 +35,6 @@ function pcsurf(data)
     set(gca,'YColor',[0,0,0]);
     set(gca,'XColor',[0,0,0]);
     camproj('perspective');
-    %axis off;
+    axis off;
     %pdfprint('temp.pdf','Width',10.5,'Height',10.5,'Position',[0.75,1,9.5,9.5],'Renderer','OpenGL');
 end
