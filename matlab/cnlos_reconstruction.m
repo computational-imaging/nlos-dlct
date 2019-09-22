@@ -20,7 +20,7 @@ function result = cnlos_reconstruction(meas, tofgrid, wall_size, ...
 %         for time-of-flight delays
 
     if nargin < 7
-        gamma = 2;
+        gamma = 4;
     end
 
     % Constants
@@ -143,10 +143,10 @@ function result = cnlos_reconstruction(meas, tofgrid, wall_size, ...
 
     % clip artifacts at boundary, rearrange for visualization
     % vol(end-10:end, :, :) = 0;
-    vol = permute(vol, [1, 3, 2]);
-    result = permute(vol, [2, 3, 1]);
-    vol = flip(vol, 2);
-    vol = flip(vol, 3);
+    % vol = permute(vol, [1, 3, 2]);
+    result = permute(vol, [3, 2, 1]);
+    % vol = flip(vol, 2);
+    % vol = flip(vol, 3);
 
     % % View result
     % figure

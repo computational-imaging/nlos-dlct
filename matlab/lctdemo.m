@@ -5,7 +5,7 @@
 
 % Optionally replace the below filenames with files from other scenes:
 % bike, discoball, dragon, outdoor, resolution, statue, teaser
-scene = 'spheres';
+scene = 'serapis';
 nlos = loaddata(scene);
 % load('~/Developer/cvpr2019_nlos/debugger/bunny/bunny.mat');
 % load('~/Developer/cvpr2019_nlos/debugger/bunny/bunny_depth.mat','bunny_depth','bunny_mask');
@@ -30,4 +30,4 @@ vis(fliplr(flipud(max(lct,[],3)')));
 colormap(gray);
 a = caxis;
 caxis([-a(2),+a(2)]);
-pdfprint('temp.pdf','Width',8.5,'Height',8.5,'Position',[0,0,8.5,8.5]);
+% pdfprint('temp.pdf','Width',8.5,'Height',8.5,'Position',[0,0,8.5,8.5]);
