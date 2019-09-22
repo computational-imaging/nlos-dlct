@@ -4,6 +4,7 @@ classdef NLOSStanfordData
         DeltaT
         CameraGridSize
         Data
+        Depth
     end
     methods
         function ds = NLOSStanfordData(filename, varargin)

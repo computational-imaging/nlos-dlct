@@ -29,6 +29,7 @@ classdef NLOSData
         Filename
         
         Data
+        Depth
         DeltaT
         TimeOffset
 
