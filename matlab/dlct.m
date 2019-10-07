@@ -5,7 +5,7 @@ if nargin < 3
     gamma = 4;
 end
 if nargin < 4
-    sigma = [2,2,1];
+    sigma = [1,1,1];
 end
 if nargin < 5
     mu = [2,2,2];
@@ -63,7 +63,7 @@ n_z = max(0,n_z);
 
 x = width - (width*2/N)*C;
 y = width - (width*2/N)*R;
-z = (range/2/M)*Z;
+z = (range/2/M)*(Z-1);
 
 pos = fliplr(flipud(squeeze(cat(4,x,y,z))));
 dir = fliplr(flipud(squeeze(cat(4,n_x,n_y,n_z))));

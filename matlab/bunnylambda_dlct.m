@@ -10,7 +10,7 @@ load('~/Developer/cvpr2019_nlos/debugger/bunny/bunny_depth.mat','bunny_depth','b
 bunny_mask = double(bunny_mask);
 
 % maxNumCompThreads(4);
-gammas = 5;%2:0.5:4;
+gammas = 4;%2:0.5:4;
 lambdas = -8:8;
 mse = zeros(length(gammas),length(lambdas));
 mad = zeros(length(gammas),length(lambdas));
@@ -33,4 +33,4 @@ for g = 1:length(gammas)
 end
 
 
-%save(sprintf('mae_%s_dlct.mat',scene),'mse','mad','gammas','lambdas');
+save(sprintf('mae_%s_dlct.mat',scene),'mse','mad','gammas','lambdas');
