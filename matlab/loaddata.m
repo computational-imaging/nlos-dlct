@@ -34,9 +34,13 @@ function nlos = loaddata(scene)
         loadtype = 'zaragoza';
         templast = 512;
       case 'statue'
-        loadfile = 'statue/meas_10min.mat';
+        loadfile = 'statue/meas_180min.mat';
         loadtype = 'stanford';
-        templast = 512;
+        templast = 1024;
+      case 'discus'
+        loadfile = 'discus/meas_360min.mat';
+        loadtype = 'stanford';
+        templast = 1024;
       case 'dragon'
         loadfile = 'dragon/meas_10min.mat';
         loadtype = 'stanford';

@@ -10,12 +10,12 @@ function dlctsurf(pos,dir,ind)
     execpath = '~/Developer/PoissonRecon/Bin/Linux/';
     tempfile = 'temp.ply';
     surffile = 'surf.ply';
-    q(sprintf('%s --in %s --out %s --degree 2 --bType 2 --pointWeight 4 --confidence -1 --ascii --exact', ...
+    q(sprintf('%s --in %s --out %s --degree 2 --bType 2 --pointWeight 4 --confidence -8 --ascii', ...
                              fullfile(execpath,'PoissonRecon'), tempfile, surffile));
     [V,F] = plyRead(surffile,1);
     plySurf(V,F);
     set(gca,'YDir','Normal');
     set(gca,'ZDir','Reverse');
     view(0,-90);
-    camlight('headlight','infinite');
+    %camlight('headlight','infinite');
 end
