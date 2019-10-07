@@ -12,8 +12,8 @@ function pcsurf(data)
 
     col = sub2ind(size(data),X,Y,min(512,Z+1));
     [X,Y,Z] = meshgrid(1:size(data,1),1:size(data,2),1:size(data,3));
-    pcshow([Z(ind),Y(ind),X(ind)],(data(col).^0.125),'MarkerSize',4);
-    colormap(hot);
+    pcshow([Z(ind),Y(ind),X(ind)],min(0.05,data(col).^0.5),'MarkerSize',4);
+    colormap(gray);
     zticks([1,256]);
     yticks([1,256]);
     xticks([128,512]);

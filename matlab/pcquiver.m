@@ -16,7 +16,7 @@ function pcquiver(pos,dir,mask)
     set(gca,'YDir','reverse');
     set(gca,'ZDir','reverse');
     axis equal;
-    
+ 
     farz = max(reshape(pos(mask,3),[],1));
     % camup([0,-1,0]);
     % campos([0,0,-1]);

@@ -20,7 +20,7 @@ M = size(measlr,3);
 % bin_resolution = 16e-12;
 % range = M.*c.*bin_resolution;
 range = nlos.DeltaT*M;
-lambda = 1;
+lambda = 4;
 
 % run LCT
 fprintf('\nRunning LCT\n');
