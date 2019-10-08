@@ -12,7 +12,7 @@ function pcquiver(pos,dir,mask)
     dir = reshape(dir,[],3);
     hold on;
     % colormap(inferno);
-    quiver3c(pos(mask,1),pos(mask,2),pos(mask,3),dir(mask,1),dir(mask,2),dir(mask,3),10);
+    quiver3c(pos(mask,1),pos(mask,2),pos(mask,3),dir(mask,1),dir(mask,2),dir(mask,3),2);
     set(gca,'YDir','reverse');
     set(gca,'ZDir','reverse');
     axis equal;
