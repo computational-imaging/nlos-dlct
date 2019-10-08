@@ -36,7 +36,7 @@ function nlos = loaddata(scene)
       case 'statue'
         loadfile = 'statue/meas_180min.mat';
         loadtype = 'stanford';
-        templast = 1024;
+        templast = 512;
       case 'discus'
         loadfile = 'discus/meas_360min.mat';
         loadtype = 'stanford';
@@ -67,6 +67,7 @@ function nlos = loaddata(scene)
         nlos.Data = nlos.Data(:,:,1:templast);
         nlos.DeltaT = 3e8 * 32e-12;
         nlos.CameraGridSize = 2;
+        nlos.Depth = NaN;
       case 'debugger'
         nlos = NLOSStanfordData(fullfile(basepath,loadtype,loadfile),'shifttime',false);
         nlos.Data = flipud(fliplr(permute(nlos.Data(1:templast,:,:),[2,3,1])));
