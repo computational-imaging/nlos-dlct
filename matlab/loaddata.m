@@ -42,7 +42,7 @@ function nlos = loaddata(scene)
         loadtype = 'stanford';
         templast = 1024;
       case 'dragon'
-        loadfile = 'dragon/meas_10min.mat';
+        loadfile = 'dragon/meas_180min.mat';
         loadtype = 'stanford';
         templast = 512;
       case 'bike'
