@@ -56,8 +56,8 @@ function nlos = loaddata(scene)
     end
     switch loadtype
       case 'zaragoza'
-        nlos = NLOSData(fullfile(basepath,loadtype,[loadfile,'.hdf5']),'bounces','sum','shifttime',true);
-        nlos.Data = nlos.Data(:,:,1:templast);
+        nlos = NLOSData(fullfile(basepath,loadtype,[loadfile,'.hdf5']),'bounces','sum','shifttime',true,'GaussianSNR',Inf);
+        nlos.Data = max(0,nlos.Data(:,:,1:templast));
         if exist(fullfile(basepath,loadtype,[loadfile,'_rec.mat']),'file')
             load(fullfile(basepath,loadtype,[loadfile,'_rec.mat']),'depth');
             nlos.Depth = depth;

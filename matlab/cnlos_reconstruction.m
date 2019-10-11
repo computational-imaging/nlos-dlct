@@ -79,7 +79,7 @@ function result = cnlos_reconstruction(meas, tofgrid, wall_size, ...
         % Step 2: Stolt trick
         tvol = interpn(z,y,x,tdata,sqrt(abs((((N.*range)./(M.*width.*4)).^2).*(x.^2+y.^2)+z.^2)),y,x,'linear',0);
         tvol = tvol.*(z > 0);
-        tvol = tvol.*abs(z)./max(sqrt(abs((((N.*range)./(M.*width.*4)).^2).*(x.^2+y.^2)+z.^2)),1e-6);
+        tvol = tvol.*abs(z)./max(sqrt(abs((((N.*range)./(M.*width.*4)).^2).*(x.^2+y.^2)+z.^2)),lambda);
 
         % Step 3: IFFT
         tvol = ifftn(ifftshift(tvol));

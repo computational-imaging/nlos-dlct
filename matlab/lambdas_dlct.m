@@ -2,11 +2,11 @@ close all;
 clear all; 
 
 rng(0);
-scene = 'dragon';
+scene = 'rabbit';
 
 nlos = loaddata(scene);
-gammas = 4:5;%2:0.5:4;
-lambdas = -16:16;
+gammas = 4;%2:0.5:4;
+lambdas = -8:8;
 sigmas = [1,1,1];
 [w,h,~] = size(nlos.Data);
 mse = zeros(length(gammas),length(lambdas));
@@ -38,4 +38,3 @@ end
 
 save(sprintf('mae_%s_dlct.mat',scene),'mse','mad','lambdas','gammas');
 save(sprintf('output_%s_dlct2.mat',scene),'posarray','dirarray');
-
