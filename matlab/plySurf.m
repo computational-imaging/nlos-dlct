@@ -1,4 +1,4 @@
-function plySurf(V,F,C,N)
+function plySurf(V,F,N)
     axis equal off;
     xlabel('x');
     ylabel('y');
@@ -14,17 +14,13 @@ function plySurf(V,F,C,N)
     % f.MenuBar = 'none';
     % V = V(:,[2,3,1]);
     % V(:,3) = -V(:,3);
-    p = patch('Faces',F,'Vertices',V);
+    % N = 0.5 + 0.5 * N./sqrt(sum(N.^2,2));
+    p = patch('Faces',F,'Vertices',V,'EdgeColor','none');
     p.FaceColor = 0.95*[1,1,1];
-    p.EdgeColor = 'none';
+    % p.EdgeColor = 'none';
     material(p,'shiny');
     lighting('gouraud');
     %camlight('headlight','infinite');
     camproj('perspective');
     cameratoolbar('show');
-
-    if nargin == 4
-        hold on;
-        quiver3(C(:,1),C(:,3),C(:,2),N(:,1),N(:,3),N(:,2),'Color','white');
-    end
 end

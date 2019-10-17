@@ -1,7 +1,16 @@
-function dlctsurf(pos,dir,ind)
-    thresh = 0;
+function dlctsurf(pos,dir,ind, pointWeight, thresh)
+    if nargin < 4
+        pointWeight = 4;
+    end
+    if nargin < 5
+        thresh = 0;
+    end
+
+    % dir = dir./abs(sqrt(dir));
+    % thresh = 0;%7.5;
     tempfile = 'temp.ply';
     surffile = 'surf.ply';
+    trimfile = 'trim.ply';
 
     %dir = dir ./ sqrt(abs(dir));
 
@@ -14,12 +23,12 @@ function dlctsurf(pos,dir,ind)
     execpath = '~/Developer/PoissonRecon/Bin/Linux/';
     tempfile = 'temp.ply';
     surffile = 'surf.ply';
-    q(sprintf('%s --in %s --out %s --degree 2 --bType 2 --pointWeight 4 --confidence -2 --ascii --density', ...
-              fullfile(execpath,'PoissonRecon'), tempfile, surffile));
+    q(sprintf('%s --in %s --out %s --degree 2 --bType 2 --pointWeight %f --ascii --density', ...
+              fullfile(execpath,'PoissonRecon'), tempfile, surffile, pointWeight));
     q(sprintf('%s --in %s --out %s --trim %d', ...
-              fullfile(execpath,'SurfaceTrimmer'), surffile, tempfile, thresh));
+              fullfile(execpath,'SurfaceTrimmer'), surffile, trimfile, thresh));
 
-    [V,F] = plyRead(tempfile,1);
+    [V,F] = plyRead(trimfile,1);
     plySurf(V,F);
     set(gca,'YDir','Normal');
     set(gca,'ZDir','Reverse');

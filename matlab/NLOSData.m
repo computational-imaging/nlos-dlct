@@ -30,6 +30,7 @@ classdef NLOSData
         
         Data
         Depth
+        Normal
         DeltaT
         TimeOffset
 

@@ -22,6 +22,8 @@ classdef NLOSStanfordData
                 ds.Data = meas;
             elseif exist('data','var')
                 ds.Data = data;
+            elseif exist('rect_data','var')
+                ds.Data = rect_data;
             end
             if p.Results.shifttime
                 load(fullfile(filepath,'tof.mat'),'tofgrid');

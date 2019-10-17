@@ -1,14 +1,24 @@
-clear all;
+%clear all;
 
-load('./dlcterror.mat');
-load('~/Developer/cvpr2019_nlos/debugger/bunny/bunny_depth.mat','bunny_depth','bunny_mask');
+alg = 'lct';
+scene = 'rabbit';
+snr = 70;
 
-mask = imresize(bunny_mask,size(pos),'nearest');
-depth = imresize(bunny_depth,size(pos));
-mad = sum(abs(pos(:) - depth(:)) .* mask(:))/sum(mask(:));
-mse = sum((pos(:) - depth(:)).^2 .* mask(:))/sum(mask(:));
+load(sprintf('errors_%s_%f_%s.mat',scene,snr,alg));
+load(sprintf('output_%s_%f_%s.mat',scene,snr,alg));
+
+lambda = 2^6;
+gamma = 4;
+l = find(lambdas == log2(lambda));
+g = find(gammas == 4);
+nlos = loaddata(scene);
+
+depth = flipud(nlos.Depth)';
+posc = posarray(:,:,end,g,l);
+mask = ~isinf(depth);
+
 figure;
-vis(abs(pos-depth).*mask);
-axis([41,214,41,214]);
-caxis([0,0.01]);
+vis(min(0.08,abs(posc-depth)).*mask);
+axis([17,240,17,240]);
+caxis([0,0.04]);
 colormap(hot);

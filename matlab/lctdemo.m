@@ -5,7 +5,7 @@
 
 % Optionally replace the below filenames with files from other scenes:
 % bike, discoball, dragon, outdoor, resolution, statue, teaser
-scene = 'serapis';
+scene = 'spheres';
 nlos = loaddata(scene);
 % load('~/Developer/cvpr2019_nlos/debugger/bunny/bunny.mat');
 % load('~/Developer/cvpr2019_nlos/debugger/bunny/bunny_depth.mat','bunny_depth','bunny_mask');
