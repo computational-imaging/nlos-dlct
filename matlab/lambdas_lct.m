@@ -3,10 +3,11 @@ clear all;
 
 rng(0);
 scene = 'rabbit';
+snr = 70;
 
-nlos = loaddata(scene);
-w = 512;
-h = 512;
+nlos = loaddata(scene,snr);
+w = 256;
+h = 256;
 d = 512;
 measlr = imresize3(nlos.Data,[w,h,d]);
 tofgridlr = [];
@@ -17,14 +18,16 @@ range = M.*nlos.DeltaT;
 algorithm = 1;
 
 switch algorithm
+  case 0
+    alg = 'fbp';
   case 1
     alg = 'lct';
   case 2
     alg = 'f_k';
 end
 
-gammas = 2;%2:4;
-lambdas = -16:8;
+gammas = 4;%2:4;
+lambdas = -8:8;
 mse = zeros(1,length(lambdas));
 mad = zeros(1,length(lambdas));
 
@@ -42,21 +45,21 @@ for g = 1:length(gammas)
         sec = toc;
         [dir,pos] = max(lct,[],3);
         pos = flipud(fliplr(pos'-1)) * ((range/2)/M);
-        dir = flipud(fliplr(dir'-1));
+        dir = flipud(fliplr(dir'));
 
-        depth = fliplr(imresize(nlos.Depth',[h,w]));
+        depth = fliplr(nlos.Depth');
         depth(isinf(depth)) = NaN;
         
-        mse(g,l) = mean(abs(pos(:) - depth(:)).^2 .* depth(:),'omitnan');
-        mad(g,l) = mean(abs(pos(:) - depth(:)).^1 .* depth(:),'omitnan');
+        mse(g,l) = mean(abs(pos(:) - depth(:)).^2,'omitnan');
+        mad(g,l) = mean(abs(pos(:) - depth(:)).^1,'omitnan');
         posarray(:,:,:,g,l) = pos;
         dirarray(:,:,:,g,l) = dir;
         
-        disp(sprintf('%s %s | gamma: %d, lambda: %+6.2f, rmse: %5.2e, mad: %5.2e, time: %5.2fs', ...
-                 scene, upper(alg), gamma, lambda, sqrt(mse(g,l)), mad(g,l), sec));
+        disp(sprintf('%s %s | SNR: %3f dB, gamma: %d, lambda: %+6.2f, rmse: %5.2e, mad: %5.2e, time: %5.2fs', ...
+                 scene, upper(alg), snr, gamma, lambda, sqrt(mse(g,l)), mad(g,l), sec));
     end
 end
 
 
-save(sprintf('mae_%s_%s.mat',scene,alg),'mse','mad','lambdas','gammas');
-save(sprintf('output_%s_%s.mat',scene,alg),'posarray','dirarray');
+save(sprintf('errors_%s_%f_%s.mat',scene,snr,alg),'mse','mad','lambdas','gammas');
+save(sprintf('output_%s_%f_%s.mat',scene,snr,alg),'posarray','dirarray');

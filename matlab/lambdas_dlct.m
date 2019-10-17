@@ -3,8 +3,9 @@ clear all;
 
 rng(0);
 scene = 'rabbit';
+snr = 70;
+nlos = loaddata(scene, snr);
 
-nlos = loaddata(scene);
 gammas = 4;%2:0.5:4;
 lambdas = -8:8;
 sigmas = [1,1,1];
@@ -23,18 +24,18 @@ for g = 1:length(gammas)
         [pos,dir,sec] = dlct(nlos,2^lambda,gamma,sigmas,[2,2,2]);
         dep = pos(:,:,3);
 
-        depth = fliplr(nlos.Depth'-0.005);
+        depth = fliplr(nlos.Depth'); %-0.005;
         depth(isinf(depth)) = NaN;
 
-        mse(g,l) = mean(abs(dep(:) - depth(:)).^2 .* depth(:),'omitnan');
-        mad(g,l) = mean(abs(dep(:) - depth(:)).^1 .* depth(:),'omitnan');
+        mse(g,l) = mean(abs(dep(:) - depth(:)).^2,'omitnan');
+        mad(g,l) = mean(abs(dep(:) - depth(:)).^1,'omitnan');
         posarray(:,:,:,g,l) = pos;
         dirarray(:,:,:,g,l) = dir;
-        disp(sprintf('%s D-LCT | gamma: %d, lambda: %+6.2f, rmse: %5.2e, mad: %5.2e, time: %5.2fs', ...
-                     scene, gamma, lambda, sqrt(mse(g,l)), mad(g,l), sec));
+        disp(sprintf('%s D-LCT | SNR: %3.0f dB, gamma: %d, lambda: %+6.2f, rmse: %5.2e, mad: %5.2e, time: %5.2fs', ...
+                     scene, snr, gamma, lambda, sqrt(mse(g,l)), mad(g,l), sec));
     end
 end
 
 
-save(sprintf('mae_%s_dlct.mat',scene),'mse','mad','lambdas','gammas');
-save(sprintf('output_%s_dlct2.mat',scene),'posarray','dirarray');
+save(sprintf('errors_%s_%f_dlct.mat',scene,snr),'mse','mad','lambdas','gammas');
+save(sprintf('output_%s_%f_dlct.mat',scene,snr),'posarray','dirarray');
