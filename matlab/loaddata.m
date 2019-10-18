@@ -43,7 +43,7 @@ function nlos = loaddata(scene,snr)
       case 'statue'
         loadfile = 'statue/meas_180min.mat';
         loadtype = 'stanford';
-        templast = 1:1024;
+        templast = 1:512;
       case 'exit_sign'
         loadfile = 'exit/data_exit_sign.mat';
         loadtype = 'cnloslct';
