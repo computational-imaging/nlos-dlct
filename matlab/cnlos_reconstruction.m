@@ -24,7 +24,7 @@ function result = cnlos_reconstruction(meas, tofgrid, wall_size, ...
     end
 
     % Constants
-    bin_resolution = 16e-12; % Native bin resolution for SPAD is 4 ps
+    bin_resolution = 32e-12; % Native bin resolution for SPAD is 4 ps
     c              = 3e8;    % Speed of light (meters per second)
     width = wall_size / 2;
     % if ~exist('crop', 'var') % bin index to crop measurements after aligning

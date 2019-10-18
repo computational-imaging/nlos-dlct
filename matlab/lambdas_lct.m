@@ -6,8 +6,8 @@ scene = 'rabbit';
 snr = 70;
 
 nlos = loaddata(scene,snr);
-w = 256;
-h = 256;
+w = 512;
+h = 512;
 d = 512;
 measlr = imresize3(nlos.Data,[w,h,d]);
 tofgridlr = [];
@@ -15,7 +15,7 @@ wall_size = nlos.CameraGridSize;
 
 M = size(measlr,3);
 range = M.*nlos.DeltaT;
-algorithm = 1;
+algorithm = 2;
 
 switch algorithm
   case 0
@@ -24,6 +24,8 @@ switch algorithm
     alg = 'lct';
   case 2
     alg = 'f_k';
+  case 3
+    alg = 'phf';
 end
 
 gammas = 4;%2:4;
@@ -47,7 +49,7 @@ for g = 1:length(gammas)
         pos = flipud(fliplr(pos'-1)) * ((range/2)/M);
         dir = flipud(fliplr(dir'));
 
-        depth = fliplr(nlos.Depth');
+        depth = 0; %fliplr(nlos.Depth');
         depth(isinf(depth)) = NaN;
         
         mse(g,l) = mean(abs(pos(:) - depth(:)).^2,'omitnan');
