@@ -1,4 +1,4 @@
-function [pos, dir, time, snorm, rnorm] = dlct(nlos, lambda, gamma, sigma, mu, pad)
+function [pos, dir, vol, time] = dlct(nlos, lambda, gamma, sigma, mu, pad)
 tic;
 
 if nargin < 3
@@ -67,4 +67,5 @@ z = (range/2/M)*(Z-1);
 
 pos = fliplr(flipud(squeeze(cat(4,x,y,z))));
 dir = fliplr(flipud(squeeze(cat(4,n_x,n_y,n_z))));
+vol = fliplr(flipud(permute(u,[2,3,1])));
 time = toc;
