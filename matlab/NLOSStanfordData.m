@@ -24,6 +24,8 @@ classdef NLOSStanfordData
                 ds.Data = data;
             elseif exist('rect_data','var')
                 ds.Data = rect_data;
+            elseif exist('transientsCalibrated','var')
+                ds.Data = transientsCalibrated;
             end
             if p.Results.shifttime
                 load(fullfile(filepath,'tof.mat'),'tofgrid');

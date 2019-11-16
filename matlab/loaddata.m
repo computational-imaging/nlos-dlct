@@ -48,10 +48,12 @@ function nlos = loaddata(scene,snr)
         loadfile = 'exit/data_exit_sign.mat';
         loadtype = 'cnloslct';
         templast = 1:2048;%1225:1225+512-1;
+        z_trim   = 600;
       case 'diffuse_s'
         loadfile = 'diffuse_s/data_diffuse_s.mat';
         loadtype = 'cnloslct';
         templast = 1:2048;%1225:1225+512-1;
+        z_trim   = 100;
       case 'su'
         loadfile = 'su/data_s_u.mat';
         loadtype = 'cnloslct';
@@ -72,6 +74,14 @@ function nlos = loaddata(scene,snr)
         loadfile = 'bunny/bunny.mat';
         loadtype = 'debugger';
         templast = 1:512;
+      case 'horse'
+        loadfile = 'horse/horse_dataset_calibrated.mat';
+        loadtype = 'cmu';
+        templast = 1:1024;
+      case 'numbers'
+        loadfile = 'numbers/numbers_dataset_calibrated.mat';
+        loadtype = 'cmu';
+        templast = 1:1024;
     end
     switch loadtype
       case 'zaragoza'
@@ -98,8 +108,14 @@ function nlos = loaddata(scene,snr)
         nlos.CameraGridSize = 1;
       case 'cnloslct'
         nlos = NLOSStanfordData(fullfile(basepath,loadtype,loadfile),'shifttime',false);
+        nlos.Data(:,:,1:z_trim) = 0;
         nlos.Data = imresize3(fliplr((nlos.Data(:,:,templast))),[64,64,512]);
         nlos.DeltaT = 4 * 3e8 * 4e-12;
+        nlos.CameraGridSize = 0.70;
+      case 'cmu'
+        nlos = NLOSStanfordData(fullfile(basepath,loadtype,loadfile),'shifttime',false);
+        nlos.Data = imresize3(reshape(nlos.Data(templast,:)',64,64,[]),[64,64,1024]);
+        nlos.DeltaT = 1 * 3e8 * 4e-12;
         nlos.CameraGridSize = 0.70;
     end
 end

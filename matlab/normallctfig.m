@@ -22,7 +22,8 @@ mask(~isnan(mask)) = 1;
 dirc = pcnormals(pointCloud(cat(3,-X,-Y,Z).*mask));
 
 figure;
-vis(sqrt(sum((dirc - normal).^2,3)));
+vis(sqrt(sum((dirc - normal).^2,3)),alpha);
+set(gcf,'Color',[1,1,1]);
 axis([17,240,17,240]);
 caxis([0,1]);
-colormap(hot);
+colormap(jet);

@@ -1,6 +1,6 @@
 %clear all;
 
-alg = 'lct';
+alg = 'dlct';
 scene = 'rabbit';
 snr = 70;
 
@@ -11,14 +11,16 @@ lambda = 2^6;
 gamma = 4;
 l = find(lambdas == log2(lambda));
 g = find(gammas == 4);
-nlos = loaddata(scene);
+%nlos = loaddata(scene);
 
 depth = flipud(nlos.Depth)';
 posc = posarray(:,:,end,g,l);
-mask = ~isinf(depth);
+mask = double(~isinf(depth));
+%mask(mask==0) = NaN;
 
 figure;
-vis(min(0.08,abs(posc-depth)).*mask);
+vis(min(0.08,abs(posc-depth)).*mask,mask);
+set(gcf,'Color',[1,1,1]);
 axis([17,240,17,240]);
 caxis([0,0.04]);
-colormap(hot);
+colormap(jet);

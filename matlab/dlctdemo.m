@@ -3,17 +3,17 @@ close all;
 
 % spheres: 2^1
 
-alg = 'lct';
+alg = 'dlct';
 scene = 'rabbit';
-snr = 70;
+snr = Inf;
 
-load(sprintf('errors_%s_%f_%s',scene,snr,alg));
-load(sprintf('output_%s_%f_%s',scene,snr,alg));
+load(sprintf('errors_%s_%f_%s.mat',scene,snr,alg));
+load(sprintf('output_%s_%f_%s.mat',scene,snr,alg));
 
 lambda = 2;
 
 nlos = loaddata(scene);
-%[pos, dir] = dlct(nlos,lambda, 3, [1,1,1], [1,1,1],[32,32,32]);
+%[pos, dir] = dlct(nlos,lambda, 3, [1,1,1], [1,1,1],[48,48,48]);
 
 
 
@@ -24,6 +24,6 @@ posc = posarray(:,:,:,1,10);
 dirc = dirarray(:,:,:,1,10);
 indc = ~isinf(flipud(nlos.Depth)');
 
-se = strel('disk',0);
-indc = imclose(indc,se);
-dlctsurf(posc,dirc,indc,4,6);
+% se = strel('disk',0);
+% indc = imclose(indc,se);
+ dlctsurf(posc,dirc,indc,4,6);

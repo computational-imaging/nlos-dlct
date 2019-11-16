@@ -2,12 +2,12 @@ close all;
 clear all; 
 
 rng(0);
-scene = 'rabbit';
+scene = 'diffuse_s';
 snr = 70;
 
 nlos = loaddata(scene,snr);
-w = 512;
-h = 512;
+w = 64;
+h = 64;
 d = 512;
 measlr = imresize3(nlos.Data,[w,h,d]);
 tofgridlr = [];
@@ -15,7 +15,7 @@ wall_size = nlos.CameraGridSize;
 
 M = size(measlr,3);
 range = M.*nlos.DeltaT;
-algorithm = 2;
+algorithm = 1;
 
 switch algorithm
   case 0
@@ -29,7 +29,7 @@ switch algorithm
 end
 
 gammas = 4;%2:4;
-lambdas = -8:8;
+lambdas = 6;%-8:8;
 mse = zeros(1,length(lambdas));
 mad = zeros(1,length(lambdas));
 
@@ -63,5 +63,5 @@ for g = 1:length(gammas)
 end
 
 
-save(sprintf('errors_%s_%f_%s.mat',scene,snr,alg),'mse','mad','lambdas','gammas');
-save(sprintf('output_%s_%f_%s.mat',scene,snr,alg),'posarray','dirarray');
+% save(sprintf('errors_%s_%f_%s.mat',scene,snr,alg),'mse','mad','lambdas','gammas');
+% save(sprintf('output_%s_%f_%s.mat',scene,snr,alg),'posarray','dirarray');

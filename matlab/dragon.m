@@ -15,11 +15,11 @@ mask = imclose(mask,se);
 % figure;
 % vis(mask.*dir(:,:,3));
 
-for w = 0:0.25:8
+for w = 4%0:0.25:8
     figure;
     dlctsurf(pos,dir,mask,w);
     camup([1,0,0]);
     set(gca,'ydir','reverse');
-    pdfprint(sprintf('%s_%4.2f.pdf','dragon',w),'Width',8.5,'Height',8.5,'Position',[-1.125,-1.5,10.5,10.5],'Renderer','OpenGL');
-    %axis([-0.55,0.55,-0.4,0.4,-1.4612,-0.7054]);
+    axis([-0.75,0.65,-0.60,0.80,-1.4612,-0.7054]);
+    pdfprint(sprintf('%s_%4.2f.pdf','dragon',w),'Width',8.5,'Height',8.5,'Position',[0,0,8.5,8.5],'Renderer','OpenGL');
 end

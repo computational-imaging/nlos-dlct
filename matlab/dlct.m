@@ -49,7 +49,7 @@ u = u(1:M,1:N,1:N,:);
 u(:,:,:,1) = reshape(Rx'*reshape(u(:,:,:,1),[M,N^2]),[M,N,N]);
 u(:,:,:,2) = reshape(Ry'*reshape(u(:,:,:,2),[M,N^2]),[M,N,N]);
 u(:,:,:,3) = reshape(Rz'*reshape(u(:,:,:,3),[M,N^2]),[M,N,N]);
-
+u(:,:,:,3) = max(0,u(:,:,:,3));
 
 % pseudo-3D impression
 [~,Z] = max(u(:,:,:,3),[],1);
@@ -59,7 +59,7 @@ ind = sub2ind([M,N,N],Z,R,C);
 n_x = u(ind + 0*M*N*N);
 n_y = u(ind + 1*M*N*N);
 n_z = u(ind + 2*M*N*N);
-n_z = max(0,n_z);
+% n_z = max(0,n_z);
 
 x = width - (width*2/N)*C;
 y = width - (width*2/N)*R;
@@ -67,5 +67,5 @@ z = (range/2/M)*(Z-1);
 
 pos = fliplr(flipud(squeeze(cat(4,x,y,z))));
 dir = fliplr(flipud(squeeze(cat(4,n_x,n_y,n_z))));
-vol = fliplr(flipud(permute(u,[2,3,1])));
+vol = fliplr(flipud(permute(u,[2,3,1,4])));
 time = toc;

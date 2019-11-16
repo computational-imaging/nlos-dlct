@@ -2,11 +2,11 @@ close all;
 clear all; 
 
 rng(0);
-scene = 'numbers';
+scene = 'su';
 snr = Inf;
 nlos = loaddata(scene, snr);
 
-gammas = 4;%2:0.5:4;
+gammas = 2;%2:0.5:4;
 lambdas = 0;
 sigmas = [1,1,1];
 [w,h,~] = size(nlos.Data);

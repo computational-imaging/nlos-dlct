@@ -16,14 +16,15 @@ nlos = loaddata(scene);
 normal = nlos.Normal;
 dirc = dirarray(:,:,1:3,g,l);
 dirc = dirc./sqrt(sum(dirc.^2,3));
-
+alpha = double(~isnan(normal(:,:,1)));
 
 
 % posc = posarray(:,:,end,g,l);
 %mask = ~isinf(normal);
 
 figure;
-vis(sqrt(sum((dirc - normal).^2,3)));
+vis(sqrt(sum((dirc - normal).^2,3)),alpha);
+set(gcf,'Color',[1,1,1]);
 axis([17,240,17,240]);
 caxis([0,1]);
-colormap(hot);
+colormap(jet);

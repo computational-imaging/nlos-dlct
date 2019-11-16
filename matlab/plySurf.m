@@ -16,7 +16,7 @@ function plySurf(V,F,N)
     % V(:,3) = -V(:,3);
     % N = 0.5 + 0.5 * N./sqrt(sum(N.^2,2));
     p = patch('Faces',F,'Vertices',V,'EdgeColor','none');
-    p.FaceColor = 0.95*[1,1,1];
+    p.FaceColor = 0.49*[1,1,1];
     % p.EdgeColor = 'none';
     material(p,'shiny');
     lighting('gouraud');
