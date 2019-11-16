@@ -1,6 +1,6 @@
 # Non-Line-of-Sight Imaging Code
 
-This repository contains code for the paper NLOS Surface Reconstruction Using the Directional LCT by Sean I. Young, David B. Lindell, Bernd Girod, Gordon Wetzstein. The captured datasets can be downloaded separately from our [project webpage](http://computationalimaging.org).
+This repository contains code for the paper NLOS Surface Reconstruction Using the Directional LCT by Sean I. Young, David B. Lindell, Bernd Girod, David Taubman, Gordon Wetzstein. The captured datasets can be downloaded separately from our [project webpage](http://computationalimaging.org).
 
 **License**  
 The code and dataset are licensed under the following license:
@@ -24,4 +24,4 @@ The code and dataset are licensed under the following license:
 Questions can be addressed to [Sean Young](mailto:sean0@stanford.edu)
 
 ## tl;dr
-Clone the git repo, download the datasets from our project webpage, and run `blkfltdemo.m` in Matlab.
+Clone the git repo, download the datasets from our project webpage, and run `dlctdemo.m` in Matlab.
