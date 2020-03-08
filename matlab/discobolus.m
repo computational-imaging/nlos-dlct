@@ -22,5 +22,47 @@ for w = 4%0:0.25:4
     set(gca,'ydir','reverse');
     axis([-0.55,0.55,-0.4,0.4,-1.4612,-0.7054]);
     set(gcf,'Color',0.95*[1,1,1]);
-    pdfprint(sprintf('%s_%4.2f.pdf','statue',w),'Width',8.5,'Height',8.5,'Position',[0,0,8.5,8.5],'Renderer','OpenGL');
+    % pdfprint(sprintf('%s_%4.2f.pdf','statue',w),'Width',8.5,'Height',8.5,'Position',[0,0,8.5,8.5],'Renderer','OpenGL');
 end
+
+scene = 'discobolus';
+
+vid = VideoWriter(sprintf('%s_dlct.avi',scene),'MPEG-4');
+vid.FrameRate = 25;
+open(vid);
+
+set(gcf,'Color',[0,0,0],'Position',[680,680,256,256]);
+set(gca,'CameraViewAngleMode','Manual');
+
+for i = 1:20
+   camorbit(-2.25,0,'data',[1 0 0])
+   frame = getframe(gcf,[0,0,256,256]);
+   writeVideo(vid,frame);
+end
+for i = 1:40
+   camorbit(+2.25,0,'data',[1 0 0])
+   frame = getframe(gcf,[0,0,256,256]);
+   writeVideo(vid,frame);
+end
+for i = 1:20
+   camorbit(-2.25,0,'data',[1 0 0])
+   frame = getframe(gcf,[0,0,256,256]);
+   writeVideo(vid,frame);
+end
+for i = 1:20
+   camorbit(0,-2.25,'data',[1 0 0])
+   frame = getframe(gcf,[0,0,256,256]);
+   writeVideo(vid,frame);
+end
+for i = 1:40
+   camorbit(0,+2.25,'data',[1 0 0])
+   frame = getframe(gcf,[0,0,256,256]);
+   writeVideo(vid,frame);
+end
+for i = 1:20
+   camorbit(0,-2.25,'data',[1 0 0])
+   frame = getframe(gcf,[0,0,256,256]);
+   writeVideo(vid,frame);
+end
+close(vid);
+

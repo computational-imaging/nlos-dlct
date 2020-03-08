@@ -1,12 +1,9 @@
-% CONSTRUCTR Construct LCT resampling operators
+% DLCTPLOT Plots DLCT directional albedo.
 %
-%   [RX, RY, RZ] = CONSTRUCTR(M, RANGE, MU) constructs the DLCT re-
-%   sampling operators RX, RY and RZ of size MxM with spatial range
-%   RANGE (in meters), and extension factors MU.
+%   DLCTSPLOT(DIR) Plots the NLOS directional albedo DIR.
 %
-%
-%   Authors:     Sean I. Young      David B. Lindell
-%   Contacts: sean0@stanford.edu, lindell@stanford.edu
+%   Author:  Sean I. Young  (Stanford University)
+%   Contact: sean0@stanford.edu, seannz@gmail.com
 %
 % Copyright 2019-2020 Stanford University, Stanford CA 94305, USA
 %
@@ -30,21 +27,14 @@
 % TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 % PERFORMANCE OF THIS SOFTWARE.
 
-function [Rx,Ry,Rz] = constructR(M,range)
-% Local function that defines resampling operators
-     R = sparse([],[],[],M^2,M,M^2);
-     x = 1:M^2;
-     R(sub2ind(size(R),x,ceil(sqrt(x)))) = 1;
-     Rx = spdiags((M/range)./sqrt(x)',0,M^2,M^2)*R;
-     Rz = 0.5*R;
-     for k = 1:round(log2(M))
-         Rx = (Rx(1:2:end,:) + Rx(2:2:end,:));
-         Rz = (Rz(1:2:end,:) + Rz(2:2:end,:));
-     end
-     Rx = full(Rx);
-     Rz = full(Rz);
-     nf = 1/norm(blkdiag(Rx,Rz));
-     Rx = Rx * nf;
-     Rz = Rz * nf;
-     Ry = Rx;
+function dlctplot(dir)
+dir_label = {'x','y','z'};
+dims = size(dir);
+for i = 1:3
+    subplot(1,3,i);
+    imagesc(dir(:,:,i));
+    colormap(gray);
+    title(sprintf('$%s$-directional albedo',dir_label{i}));
+    axis off;
+    pbaspect([dims(1:2),1]);
 end
