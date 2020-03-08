@@ -1,10 +1,10 @@
-# Non-Line-of-Sight Imaging Code
+# Code for Non-line-of-sight Surface Reconstruction Using the Directional LCT
 
-This repository contains code for the paper NLOS Surface Reconstruction Using the Directional LCT by Sean I. Young, David B. Lindell, Bernd Girod, David Taubman, Gordon Wetzstein. The captured datasets can be downloaded separately from our [project webpage](http://computationalimaging.org).
+This repository contains code for the paper NLOS Surface Reconstruction Using the Directional LCT by Sean I. Young, David B. Lindell, Bernd Girod, David Taubman, Gordon Wetzstein. The captured datasets can be downloaded separately from our [project webpage](http://computationalimaging.org). The simulation dataset can be downloaded from [Zaragoza Graphics and Imaging Lab](https://graphics.unizar.es/nlos/)
 
 **License**  
 The code and dataset are licensed under the following license:
-> Copyright (c) 2018, Stanford University
+> Copyright (c) 2019-2020, Stanford University
 >
 > All rights reserved.
 >
@@ -21,7 +21,7 @@ The code and dataset are licensed under the following license:
 > THIS SOFTWARE IS PROVIDED BY THE TRUSTEES OF THE LELAND STANFORD JUNIOR UNIVERSITY "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE LELAND STANFORD JUNIOR UNIVERSITY OR ITS TRUSTEES BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 **Contact**  
-Questions can be addressed to [Sean Young](mailto:sean0@stanford.edu)
+Questions can be addressed to [Sean Young](mailto:sean0@stanford.edu) or [David B. Lindell](mailto:lindell@stanford.edu)
 
 ## tl;dr
 Clone the git repo, download the datasets from our project webpage, and run `dlctdemo.m` in Matlab.
