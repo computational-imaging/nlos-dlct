@@ -14,18 +14,18 @@
 % a commercial product is hereby granted without fee, provided that
 % the above copyright notice appear in all copies and that both that
 % copyright notice and this permission notice appear in supporting
-% documentation, and that the name of UNSW not be used in advertising
-% or publicity pertaining to distribution of the software without
-% specific, written prior permission.
+% documentation, and that the name of Stanford University not be used
+% in advertising or publicity pertaining to distribution of the
+% software without specific, written prior permission.
 %
 % STANFORD UNIVERSITY DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
 % SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
-% FITNESS FOR ANY PARTICULAR PURPOSE.  IN NO EVENT SHALL UNSW BE
-% LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL DAMAGES OR ANY
-% DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS,
-% WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS
-% ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
-% OF THIS SOFTWARE.
+% FITNESS FOR ANY PARTICULAR PURPOSE. IN NO EVENT SHALL STANFORD
+% UNIVERSITY BE LIABLE FOR ANY SPECIAL, INDIRECT OR CONSEQUENTIAL
+% DAMAGES OR ANY DAMAGES WHATSOEVER RESULTING FROM LOSS OF USE, DATA
+% OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER
+% TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
+% PERFORMANCE OF THIS SOFTWARE.
 
 classdef NLOSStanfordData
     properties
