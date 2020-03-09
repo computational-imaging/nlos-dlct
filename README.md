@@ -1,6 +1,8 @@
 # Code for Non-line-of-sight Surface Reconstruction Using the Directional LCT
 
-This repository contains code for the paper NLOS Surface Reconstruction Using the Directional LCT by Sean I. Young, David B. Lindell, Bernd Girod, David Taubman, Gordon Wetzstein. The captured datasets can be downloaded separately from our [project webpage](http://computationalimaging.org). The simulation dataset can be downloaded from [Zaragoza Graphics and Imaging Lab](https://graphics.unizar.es/nlos/)
+This repository contains code for the paper NLOS Surface Reconstruction Using the Directional LCT by Sean I. Young, David B. Lindell, Bernd Girod, David Taubman, Gordon Wetzstein. The captured datasets can be downloaded separately from our [project webpage](http://computationalimaging.org). The simulation dataset can be downloaded from [Zaragoza Graphics and Imaging Lab](https://graphics.unizar.es/nlos/).
+
+Poisson Surface Reconstruction software can be downloaded from [Hughes Hoppe's homepage](http://hhoppe.com/proj/poissonrecon/). After compilation, set the execpath variable in dlctsurf.m to point to the folder containing the binaries.
 
 **License**  
 The code and dataset are licensed under the following license:
