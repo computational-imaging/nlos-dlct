@@ -4,6 +4,10 @@ This repository contains code for the paper NLOS Surface Reconstruction Using th
 
 Poisson Surface Reconstruction software can be downloaded from [Hughes Hoppe's homepage](http://hhoppe.com/proj/poissonrecon/). After compilation, set the execpath variable in dlctsurf.m to point to the folder containing the binaries.
 
+
+9ezA5ycHXDA
+[![NLOS D-LCT](http://img.youtube.com/vi/9ezA5ycHXDA/0.jpg)](https://www.youtube.com/watch?v=9ezA5ycHXDA "NLOS D-LCT")
+
 **License**  
 The code and dataset are licensed under the following license:
 > Copyright (c) 2019-2020, Stanford University
