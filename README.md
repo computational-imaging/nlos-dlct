@@ -6,6 +6,7 @@ Poisson Surface Reconstruction software can be downloaded from [Hughes Hoppe's h
 
 
 **Link to YouTube video**
+
 [![NLOS D-LCT](http://img.youtube.com/vi/9ezA5ycHXDA/0.jpg)](https://www.youtube.com/watch?v=9ezA5ycHXDA "NLOS D-LCT")
 
 
