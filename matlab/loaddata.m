@@ -51,6 +51,14 @@ function nlos = loaddata(scene)
         loadfile = 'dragon/meas_180min.mat';
         loadtype = 'stanford';
         templast = 1:512;
+      case 'data_s_u'
+        loadfile = 'data_s_u.mat';
+        loadtype = 'confocal_nlos_code';
+        z_trim = 600;
+      case 'data_exit_sign'
+        loadfile = 'data_exit_sign.mat';
+        loadtype = 'confocal_nlos_code';
+        z_trim = 600;
     end
     switch loadtype
       case 'zaragoza'
@@ -69,6 +77,12 @@ function nlos = loaddata(scene)
         nlos.Data = nlos.Data(:,:,templast);
         nlos.DeltaT = 3e8 * 32e-12;
         nlos.CameraGridSize = 2;
+        nlos.Depth = NaN;
+      case 'confocal_nlos_code'
+        nlos = NLOSStanfordData(fullfile(basepath,loadtype,loadfile),'shifttime',false);
+        nlos.Data(:,:,1:z_trim) = 0;
+        nlos.DeltaT = 3e8 * 4e-12;
+        nlos.CameraGridSize = 0.70;
         nlos.Depth = NaN;
     end
 end
