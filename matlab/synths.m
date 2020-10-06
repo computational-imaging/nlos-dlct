@@ -4,7 +4,7 @@ close all;
 % spheres: 2^1
 
 alg = 'dlct';
-scene = 'serapis';
+scene = 'spheres';
 snr = Inf;
 
 load(sprintf('errors_%s_%f_%s.mat',scene,snr,alg));
@@ -26,7 +26,7 @@ indc = ~isinf(flipud(nlos.Depth)');
 
 % se = strel('disk',0);
 % indc = imclose(indc,se);
-dlctsurf(posc,dirc,indc,4,0);
+dlctsurf(posc,dirc,indc,4,6);
 
 vid = VideoWriter(sprintf('%s_dlct.avi',scene),'MPEG-4');
 vid.FrameRate = 25;
