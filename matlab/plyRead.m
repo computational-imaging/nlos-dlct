@@ -29,12 +29,12 @@ fclose(fid);
 delimiter = ' ';
 startRow = endHeader+1;
 endRow = startRow + nVertex - 1;
-formatSpec = '%f%f%f%f%f%f%*s%[^\n\r]';
+formatSpec = '%f%f%f%f%f%f%f%*s%[^\n\r]';
 fid = fopen(filename,'r');
 dataArray = textscan(fid, formatSpec, nVertex, 'Delimiter', delimiter, 'MultipleDelimsAsOne', true, 'EmptyValue' ,NaN,'HeaderLines', startRow-1, 'ReturnOnError', false);
 fclose(fid);
 vertices = [dataArray{1:3}];
-normals = [dataArray{4:6}];
+normals = [dataArray{5:7}];
 %% Textscan the face connectivity
 delimiter = ' ';
 startRow = endRow + 1;
