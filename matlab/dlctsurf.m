@@ -47,18 +47,20 @@ function dlctsurf(pos,dir,ind, pointWeight, thresh)
 
     % Poisson surface reconstruction
     execpath = '~/Developer/PoissonRecon/Bin/Linux/';
-    system(sprintf('%s --in %s --out %s --degree 2 --bType 2 --pointWeight %f --ascii --density', ...
+    system(sprintf('%s --in %s --out %s --degree 2 --bType 2 --pointWeight %f --ascii --density --normals', ...
                    fullfile(execpath,'PoissonRecon'), 'temp.ply', 'surf.ply', pointWeight));
     system(sprintf('%s --in %s --out %s --trim %d', fullfile(execpath,'SurfaceTrimmer'), ...
                    'surf.ply', 'trim.ply', thresh));
 
 
     % visualize the reconstructed surface
-    [V,F] = plyRead('trim.ply',1);
-    p = patch('Faces',F,'Vertices',V,'EdgeColor','none');
-    p.FaceColor = 0.98*[1,1,1];
+    [V,F,N] = plyRead('trim.ply',1);
+    N = N.*[1,1,1];
+    col = uint8(255*(N./sqrt(sum(N.^2,2))*0.5 + 0.5));
+    p = patch('Faces',F,'Vertices',V,'EdgeColor','none','FaceVertexCData',col(:,[1,2,3]),'FaceColor','interp');
+    %p.FaceColor = 0.98*[1,1,1];
     axis equal off;
-    material(p,'shiny');
+    material(p,'dull');
     lighting('gouraud');
     camproj('perspective');
     cameratoolbar('show');
@@ -66,5 +68,5 @@ function dlctsurf(pos,dir,ind, pointWeight, thresh)
     set(gca,'YDir','Normal');
     set(gca,'ZDir','Reverse');
     view(0,-90);
-    camlight('right','infinite');
+    camlight('headlight','infinite');
 end
